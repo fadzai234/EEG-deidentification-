@@ -1,0 +1,35 @@
+# -*- coding: utf-8 -*-
+"""
+Deidentification file for nihon kohden files- Created on Wed Jul 26 12:06:44 2023
+
+@author: Fadzai
+"""
+
+import mne
+import os
+import numpy as np
+import matplotlib.pyplot as plt
+
+#Choose a directory containing the EEG files
+directory = 'C:\\Users\\fadza\\OneDrive - University of Cape Town\\Documents\\EEG2100'
+print(directory)
+
+def deid(directory):
+    #Create variable for naming deidentified file
+    i=0
+    #Step through each file in the folder containing the .EEG files
+    for filename in os.listdir(directory):
+        if filename.endswith('.EEG'):
+            i+=1
+            raw = mne.io.read_raw_nihon(str(filename))
+            print(raw)
+            print(raw.info)
+            
+            raw.anonymize()
+            print(raw)
+            print(raw.info)
+            
+            #create new edf file corresponding to deidentified EEG
+            raw.export(str(i), 'edf', overwrite = True)
+
+deid(directory)
